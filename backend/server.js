@@ -20,10 +20,12 @@ mongoose.connect(process.env.MONGO_URI)
 const bookingSchema = new mongoose.Schema({
   doctorName:  String,
   fee:         Number,
+  patientId:   String,
   patientName: String,
   age:         Number,
   phone:       String,
-  issue:       String,
+  symptoms:    String,
+  history:     String,
   appointmentTime: Date,
   createdAt:   { type: Date, default: Date.now }
 });
