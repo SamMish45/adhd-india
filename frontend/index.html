@@ -583,10 +583,6 @@
           <div class="doc-meta-item"><span>Rating</span><strong>⭐ 4.4</strong></div>
         </div>
         <div class="doc-divider"></div>
-        <div class="fee-row">
-          <div class="fee-label">Consultation Fee</div>
-          <div class="fee-amount"><sup>₹</sup>699</div>
-        </div>
         <button class="btn-book">Book an Appointment →</button>
       </div>
     </div>
@@ -654,10 +650,6 @@
           <div class="doc-meta-item"><span>Rating</span><strong>⭐ 4.4</strong></div>
         </div>
         <div class="doc-divider"></div>
-        <div class="fee-row">
-          <div class="fee-label">Consultation Fee</div>
-          <div class="fee-amount"><sup>₹</sup>699</div>
-        </div>
 
         <a href="#" id="whatsappLink" target="_blank" class="btn-whatsapp">
           <!-- WhatsApp Icon SVG -->
@@ -728,7 +720,6 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             doctorName: 'Dr. Kamal Kishore Verma',
-            fee: 699,
             patientId: generatedId,
             patientName: name,
             age: Number(age),
@@ -739,7 +730,7 @@
         });
 
         const msg = `Dear Sir,\nMy name is ${name}, and I am seeking a consultation . My ID is ${generatedId}`;
-        const waUrl = `https://wa.me/918289983801?text=${encodeURIComponent(msg)}`;
+        const waUrl = `https://wa.me/919258786759?text=${encodeURIComponent(msg)}`;
 
         document.getElementById('whatsappLink').href = waUrl;
 
