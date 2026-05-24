@@ -572,7 +572,9 @@
 
       <div class="doctor-card" onclick="openForm()">
         <div class="doc-avatar" style="overflow: hidden;">
-          <img src="images/doctor.jpg" alt="Dr. Kamal Kishore Verma" style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="images/doctor.jpg" alt="Dr. Kamal Kishore Verma"
+            style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span style="display: none; font-size: 32px;">👨‍⚕️</span>
         </div>
         <div class="doc-name">Dr. Kamal Kishore Verma</div>
@@ -615,13 +617,11 @@
           </div>
           <div class="field">
             <label>Current Symptoms <span style="color:var(--gray-400)">(Optional)</span></label>
-            <textarea id="inputSymptoms"
-              placeholder="Briefly describe what you've been experiencing..."></textarea>
+            <textarea id="inputSymptoms" placeholder="Briefly describe what you've been experiencing..."></textarea>
           </div>
           <div class="field">
             <label>Previous Medical History <span style="color:var(--gray-400)">(Optional)</span></label>
-            <textarea id="inputHistory"
-              placeholder="Any past medical conditions, medications, etc."></textarea>
+            <textarea id="inputHistory" placeholder="Any past medical conditions, medications, etc."></textarea>
           </div>
           <button class="btn-primary" id="btnSubmit" onclick="submitForm()">Submit</button>
           <button class="btn-back" onclick="goHome()">← Back</button>
@@ -639,7 +639,9 @@
 
       <div class="doctor-card" style="cursor: default;">
         <div class="doc-avatar" style="overflow: hidden;">
-          <img src="images/doctor.jpg" alt="Dr. Kamal Kishore Verma" style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+          <img src="images/doctor.jpg" alt="Dr. Kamal Kishore Verma"
+            style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
           <span style="display: none; font-size: 32px;">👨‍⚕️</span>
         </div>
         <div class="doc-name">Dr. Kamal Kishore Verma</div>
@@ -714,8 +716,12 @@
       const generatedId = `ADHDIndia${randomNum}`;
 
       try {
+        const msg = `Dear Sir,\nMy name is ${name}, and I am seeking a consultation . My ID is ${generatedId}`;
+        const waUrl = `https://wa.me/919258786759?text=${encodeURIComponent(msg)}`;
+        document.getElementById('whatsappLink').href = waUrl;
+
         // Send booking to database
-        await fetch(`${API}/booking`, {
+        const response = await fetch(`${API}/booking`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -729,15 +735,12 @@
           })
         });
 
-        const msg = `Dear Sir,\nMy name is ${name}, and I am seeking a consultation . My ID is ${generatedId}`;
-        const waUrl = `https://wa.me/919258786759?text=${encodeURIComponent(msg)}`;
-
-        document.getElementById('whatsappLink').href = waUrl;
-
-        showPage('pageConfirmed');
+        if (!response.ok) {
+          throw new Error(`Server returned ${response.status}`);
+        }
       } catch (err) {
-        console.error(err);
-        alert('Failed to save booking. Please try again.');
+        console.error('Database save failed:', err);
+        alert('Notice: We could not save your details to our database due to a server issue, but you can STILL complete your booking by sending us a WhatsApp message on the next page!');
       } finally {
         submitBtn.innerHTML = originalText;
         submitBtn.style.background = originalBg;
@@ -746,6 +749,8 @@
         submitBtn.style.opacity = '1';
         submitBtn.style.cursor = 'pointer';
       }
+
+      showPage('pageConfirmed');
     }
   </script>
 </body>
