@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../frontend')));
 
 // ── MongoDB connect ──
-mongoose.connect(process.env.MONGO_URI, { family: 4 })
+mongoose.connect(process.env.MONGO_URI, { family: 4, dbName: 'adhd-india' })
   .then(() => console.log('✅ MongoDB connected'))
   .catch(err => console.log('❌ DB Error:', err));
 
