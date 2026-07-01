@@ -525,7 +525,178 @@
       color: #94a3b8;
     }
 
+    /* ── QUIZ WIDGET ── */
+    .quiz-wrap {
+      max-width: 600px;
+      margin: 0 auto 40px;
+      background: var(--white);
+      border: 1.5px solid var(--teal-light);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .quiz-header {
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      padding: 24px 28px;
+      color: var(--white);
+      text-align: center;
+      position: relative;
+    }
+
+    .quiz-header::after {
+      content: "🧠";
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      opacity: 0.2;
+    }
+
+    .quiz-title {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .quiz-subtitle {
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    .quiz-body {
+      padding: 32px 28px;
+      text-align: center;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-progress {
+      font-size: 13px;
+      color: var(--teal);
+      font-weight: 700;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .quiz-question-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gray-900);
+      margin-bottom: 24px;
+      line-height: 1.4;
+    }
+
+    .quiz-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .quiz-opt-btn {
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-body);
+    }
+
+    .quiz-opt-btn:hover {
+      background: var(--teal-light);
+      border-color: var(--teal);
+      color: var(--teal-dark);
+      transform: translateY(-2px);
+    }
+
+    .quiz-result-score {
+      font-family: var(--font-display);
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .quiz-result-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 12px;
+    }
+
+    .quiz-result-desc {
+      font-size: 15px;
+      color: var(--gray-600);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    
+    .quiz-chart {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: conic-gradient(var(--teal) 0%, var(--teal) var(--quiz-pct), var(--gray-100) var(--quiz-pct), var(--gray-100) 100%);
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .quiz-chart-inner {
+      width: 106px;
+      height: 106px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .btn-nav-quiz {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: var(--white);
+      border: none;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(234, 88, 12, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      animation: pulse 2s infinite;
+    }
+
+    .btn-nav-quiz:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.4);
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4); }
+      70% { box-shadow: 0 0 0 6px rgba(234, 88, 12, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0); }
+    }
+
     @media (max-width: 600px) {
+      .nav-badge { display: none !important; }
+
       .hero {
         padding: 48px 16px 56px;
       }
@@ -541,11 +712,14 @@
 
   <!-- NAV -->
   <nav>
-    <div class="logo">
+    <div class="logo" onclick="goHome()" style="cursor: pointer;">
       <div class="logo-icon">🧠</div>
       <div class="logo-text">ADHD <span>India</span></div>
     </div>
-    <div class="nav-badge">Secure & Confidential</div>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button class="btn-nav-quiz" onclick="openQuiz()">📝 Free ADHD Quiz</button>
+      <div class="nav-badge">Secure</div>
+    </div>
   </nav>
 
   <!-- PAGE: HOME -->
@@ -563,6 +737,8 @@
         <div class="pill">📱 WhatsApp Follow-Up</div>
       </div>
     </div>
+
+    <!-- Quiz moved to separate page -->
 
     <!-- DOCTOR -->
     <div class="section">
@@ -592,6 +768,24 @@
     <footer>
       <span>© 2025 ADHD India</span> · All consultations are strictly confidential · HIPAA-aligned data practices
     </footer>
+  </div>
+
+  <!-- PAGE: QUIZ -->
+  <div class="page" id="pageQuiz">
+    <div class="section" style="padding-top: 60px;">
+      <div class="quiz-wrap" id="quizWrap">
+        <div class="quiz-header">
+          <div class="quiz-title">ADHD Self-Assessment Quiz</div>
+          <div class="quiz-subtitle">Take this quick 15-question quiz to understand your symptoms.</div>
+        </div>
+        <div class="quiz-body" id="quizBody">
+          <div style="font-size: 15px; color: var(--gray-600); margin-bottom: 24px; line-height: 1.5;">
+            This screening test is based on standard ADHD symptom checklists. It is entirely confidential and takes just 2 minutes.
+          </div>
+          <button class="btn-primary" style="font-size: 16px; padding: 16px;" onclick="startQuiz()">Start Quiz Now</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- PAGE: FORM -->
@@ -668,10 +862,121 @@
   <script>
     const API = '/api';
 
+    // ── QUIZ LOGIC ──
+    const quizQuestions = [
+      "How often do you have trouble wrapping up the final details of a project, once the challenging parts have been done?",
+      "How often do you have difficulty getting things in order when you have to do a task that requires organization?",
+      "When you have a task that requires a lot of thought, how often do you avoid or delay getting started?",
+      "How often do you fidget or squirm with your hands or feet when you have to sit down for a long time?",
+      "How often do you feel overly active and compelled to do things, like you were driven by a motor?",
+      "How often do you make careless mistakes when you have to work on a boring or difficult project?",
+      "How often do you have difficulty keeping your attention when you are doing boring or repetitive work?",
+      "How often do you have difficulty concentrating on what people say to you, even when they are speaking directly to you?",
+      "How often do you misplace or have difficulty finding things at home or at work?",
+      "How often are you distracted by activity or noise around you?",
+      "How often do you leave your seat in meetings or other situations in which you are expected to remain seated?",
+      "How often do you feel restless or fidgety?",
+      "How often do you have difficulty unwinding and relaxing when you have time to yourself?",
+      "How often do you find yourself talking too much when you are in social situations?",
+      "How often do you interrupt others when they are busy?"
+    ];
+
+    let currentQuestionIndex = 0;
+    let quizTotalScore = 0;
+
+    function startQuiz() {
+      currentQuestionIndex = 0;
+      quizTotalScore = 0;
+      renderQuizQuestion();
+    }
+
+    function renderQuizQuestion() {
+      if (currentQuestionIndex >= quizQuestions.length) {
+        showQuizReport();
+        return;
+      }
+      const qText = quizQuestions[currentQuestionIndex];
+      const html = `
+        <div class="quiz-progress">Question ${currentQuestionIndex + 1} of ${quizQuestions.length}</div>
+        <div class="quiz-question-text">${qText}</div>
+        <div class="quiz-options">
+          <button class="quiz-opt-btn" onclick="answerQuiz(0)">Never (0)</button>
+          <button class="quiz-opt-btn" onclick="answerQuiz(1)">Rarely (1)</button>
+          <button class="quiz-opt-btn" onclick="answerQuiz(2)">Sometimes (2)</button>
+          <button class="quiz-opt-btn" onclick="answerQuiz(3)">Often (3)</button>
+          <button class="quiz-opt-btn" onclick="answerQuiz(4)">Very Often (4)</button>
+        </div>
+      `;
+      document.getElementById('quizBody').innerHTML = html;
+    }
+
+    function answerQuiz(score) {
+      quizTotalScore += score;
+      currentQuestionIndex++;
+      renderQuizQuestion();
+    }
+
+    function showQuizReport() {
+      const maxScore = quizQuestions.length * 4; // 60
+      const percentage = Math.round((quizTotalScore / maxScore) * 100);
+      
+      let reportTitle = "";
+      let reportDesc = "";
+      
+      if (quizTotalScore < 15) {
+        reportTitle = "Low Indication";
+        reportDesc = "Your responses indicate few ADHD symptoms. If you are still concerned about specific challenges, a consultation can provide clarity.";
+      } else if (quizTotalScore < 35) {
+        reportTitle = "Moderate Indication";
+        reportDesc = "Your responses suggest you experience several ADHD-like symptoms. We recommend speaking with a specialist to discuss how these impact your daily life.";
+      } else {
+        reportTitle = "High Indication";
+        reportDesc = "Your responses suggest a strong presence of ADHD symptoms that likely impact your daily life. We highly recommend scheduling a clinical evaluation.";
+      }
+
+      const html = `
+        <div class="quiz-chart" style="--quiz-pct: ${percentage}%">
+          <div class="quiz-chart-inner">
+            <div class="quiz-result-score">${quizTotalScore}</div>
+            <div style="font-size: 11px; font-weight: 600; color: var(--gray-400);">OUT OF ${maxScore}</div>
+          </div>
+        </div>
+        <div class="quiz-result-title">${reportTitle}</div>
+        <div class="quiz-result-desc">${reportDesc}</div>
+        <button class="btn-primary" style="background: linear-gradient(135deg, var(--teal), var(--blue)); box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3); font-size: 16px; padding: 16px;" onclick="bookFromQuiz()">Discuss Results with Doctor →</button>
+        <button class="btn-back" onclick="resetQuiz()" style="margin-top: 12px; border: none;">Retake Quiz</button>
+      `;
+      document.getElementById('quizBody').innerHTML = html;
+      
+      // Scroll to top of quiz smoothly
+      document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetQuiz() {
+      document.getElementById('quizBody').innerHTML = `
+        <div style="font-size: 15px; color: var(--gray-600); margin-bottom: 24px; line-height: 1.5;">
+          This screening test is based on standard ADHD symptom checklists. It is entirely confidential and takes just 2 minutes.
+        </div>
+        <button class="btn-primary" style="font-size: 16px; padding: 16px;" onclick="startQuiz()">Start Quiz Now</button>
+      `;
+    }
+
+    function bookFromQuiz() {
+      openForm();
+      const symptomField = document.getElementById('inputSymptoms');
+      if (symptomField) {
+        symptomField.value = "I completed the online ADHD screening quiz and scored " + quizTotalScore + "/60.\\n\\nI would like to discuss these results.";
+      }
+    }
+
     function showPage(id) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById(id).classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function openQuiz() {
+      showPage('pageQuiz');
     }
 
     function openForm() {
