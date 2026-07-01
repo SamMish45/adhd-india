@@ -371,6 +371,30 @@
       transform: translateY(0);
     }
 
+    .btn-feedback {
+      width: 100%;
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      color: #b45309;
+      border: 1.5px solid #fcd34d;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all 0.2s ease;
+      margin-top: 10px;
+      box-shadow: 0 2px 8px rgba(251, 191, 36, 0.2);
+    }
+
+    .btn-feedback:hover {
+      background: linear-gradient(135deg, #fde68a, #fcd34d);
+      border-color: #fbbf24;
+      color: #92400e;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    }
+
     .btn-whatsapp {
       width: 100%;
       background: #25D366;
@@ -746,7 +770,7 @@
       <div class="section-title">Book an Appointment</div>
       <div class="section-sub">Trained in ADHD diagnosis and management for children and adults.</div>
 
-      <div class="doctor-card" onclick="openForm()">
+      <div class="doctor-card">
         <div class="doc-avatar" style="overflow: hidden;">
           <img src="images/doctor.jpg" alt="Dr. Kamal Kishore Verma"
             style="width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;"
@@ -761,7 +785,8 @@
           <div class="doc-meta-item"><span>Rating</span><strong>⭐ 4.4</strong></div>
         </div>
         <div class="doc-divider"></div>
-        <button class="btn-book">Book an Appointment →</button>
+        <button class="btn-book" onclick="openForm()">Book an Appointment →</button>
+        <button class="btn-feedback" onclick="openFeedback()">Faced any difficulty? Send Feedback</button>
       </div>
     </div>
 
@@ -802,6 +827,10 @@
             <input type="text" id="inputName" placeholder="e.g. Rohit Sharma" />
           </div>
           <div class="field">
+            <label>Email Address <span>*</span></label>
+            <input type="email" id="inputEmail" placeholder="you@example.com" />
+          </div>
+          <div class="field">
             <label>Age <span>*</span></label>
             <input type="number" id="inputAge" placeholder="e.g. 24" min="1" max="120" />
           </div>
@@ -818,6 +847,34 @@
             <textarea id="inputHistory" placeholder="Any past medical conditions, medications, etc."></textarea>
           </div>
           <button class="btn-primary" id="btnSubmit" onclick="submitForm()">Submit</button>
+          <button class="btn-back" onclick="goHome()">← Back</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: FEEDBACK -->
+  <div class="page" id="pageFeedback">
+    <div class="section">
+      <div class="form-wrap">
+        <div class="form-header">
+          <div style="font-size:17px;font-weight:700">Send Feedback / Report a Problem</div>
+          <div class="form-header-sub">Let us know if you faced any difficulty, we are here to help.</div>
+        </div>
+        <div class="form-body" id="feedbackFormBody">
+          <div class="field">
+            <label>Full Name <span>*</span></label>
+            <input type="text" id="fbName" placeholder="Enter your full name" />
+          </div>
+          <div class="field">
+            <label>Email Address <span>*</span></label>
+            <input type="email" id="fbEmail" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label>Your Problem or Feedback <span>*</span></label>
+            <textarea id="fbProblem" placeholder="Please describe the issue you are facing..."></textarea>
+          </div>
+          <button class="btn-primary" id="btnSubmitFeedback" onclick="submitFeedback()">Send Feedback</button>
           <button class="btn-back" onclick="goHome()">← Back</button>
         </div>
       </div>
@@ -983,9 +1040,70 @@
       showPage('pageForm');
     }
 
+    function openFeedback() {
+      document.getElementById('feedbackFormBody').innerHTML = `
+          <div class="field">
+            <label>Full Name <span>*</span></label>
+            <input type="text" id="fbName" placeholder="Enter your full name" />
+          </div>
+          <div class="field">
+            <label>Email Address <span>*</span></label>
+            <input type="email" id="fbEmail" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label>Your Problem or Feedback <span>*</span></label>
+            <textarea id="fbProblem" placeholder="Please describe the issue you are facing..."></textarea>
+          </div>
+          <button class="btn-primary" id="btnSubmitFeedback" onclick="submitFeedback()">Send Feedback</button>
+          <button class="btn-back" onclick="goHome()">← Back</button>
+      `;
+      showPage('pageFeedback');
+    }
+
+    async function submitFeedback() {
+      const name = document.getElementById('fbName').value.trim();
+      const email = document.getElementById('fbEmail').value.trim();
+      const problem = document.getElementById('fbProblem').value.trim();
+
+      if (!name || !email || !problem) {
+        alert('Please fill all required fields!');
+        return;
+      }
+
+      const submitBtn = document.getElementById('btnSubmitFeedback');
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '⏳ Sending...';
+      submitBtn.disabled = true;
+
+      try {
+        const response = await fetch(`${API}/feedback`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, problem })
+        });
+        
+        if (!response.ok) throw new Error('Failed to send');
+
+        // Show thank you message in place
+        document.getElementById('feedbackFormBody').innerHTML = `
+          <div style="text-align: center; padding: 20px 0;">
+            <div style="font-size: 40px; margin-bottom: 16px;">✅</div>
+            <div style="font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px;">Thank You!</div>
+            <div style="color: var(--gray-600); margin-bottom: 24px; line-height: 1.5;">We have received your feedback. Our team will resolve your query and inform you on your email shortly.</div>
+            <button class="btn-primary" onclick="goHome()">Back to Home</button>
+          </div>
+        `;
+      } catch (err) {
+        console.error('Feedback failed:', err);
+        alert('Something went wrong. Please try again.');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      }
+    }
+
     function goHome() {
       // Reset form
-      ['inputName', 'inputAge', 'inputPhone', 'inputSymptoms', 'inputHistory'].forEach(id => {
+      ['inputName', 'inputEmail', 'inputAge', 'inputPhone', 'inputSymptoms', 'inputHistory'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
@@ -994,12 +1112,13 @@
 
     async function submitForm() {
       const name = document.getElementById('inputName').value.trim();
+      const email = document.getElementById('inputEmail').value.trim();
       const age = document.getElementById('inputAge').value.trim();
       const phone = document.getElementById('inputPhone').value.trim();
       const symptoms = document.getElementById('inputSymptoms').value.trim();
       const history = document.getElementById('inputHistory').value.trim();
 
-      if (!name || !age || !phone) {
+      if (!name || !email || !age || !phone) {
         alert('Please fill all required fields!');
         return;
       }
@@ -1033,6 +1152,7 @@
             doctorName: 'Dr. Kamal Kishore Verma',
             patientId: generatedId,
             patientName: name,
+            email,
             age: Number(age),
             phone,
             symptoms,
